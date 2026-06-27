@@ -21,101 +21,139 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-  /* Layout */
-  .app-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .app-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 8px; }
   .app-header h1 { font-size: 18px; font-weight: 600; }
-  .date-nav { display: flex; align-items: center; gap: 10px; }
+  .date-nav { display: flex; align-items: center; gap: 8px; }
   .date-nav button { background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 10px; cursor: pointer; font-size: 13px; color: var(--text-muted); }
   .date-nav button:hover { background: var(--gray-light); }
-  .date-display { font-size: 14px; font-weight: 500; min-width: 160px; text-align: center; }
+  .date-display { font-size: 14px; font-weight: 500; min-width: 150px; text-align: center; }
   .today-btn { background: var(--blue-light) !important; color: var(--blue-dark) !important; border-color: transparent !important; }
 
-  .main { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+  .main { max-width: 860px; margin: 0 auto; padding: 1.25rem; }
 
-  /* Tabs */
-  .tabs { display: flex; gap: 4px; background: var(--gray-light); border-radius: var(--radius); padding: 4px; margin-bottom: 1.5rem; }
+  .tabs { display: flex; gap: 4px; background: var(--gray-light); border-radius: var(--radius); padding: 4px; margin-bottom: 1.25rem; }
   .tab { flex: 1; padding: 8px; text-align: center; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; cursor: pointer; color: var(--text-muted); border: none; background: none; }
   .tab.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
-  /* Day type toggle */
-  .day-type-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
+  .day-type-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
   .day-type-row label { font-size: 13px; color: var(--text-muted); }
   .toggle-group { display: flex; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
   .toggle-group button { padding: 6px 14px; border: none; background: none; font-size: 13px; cursor: pointer; color: var(--text-muted); }
   .toggle-group button.active { background: var(--purple-light); color: var(--purple-dark); font-weight: 500; }
+  .day-completion { margin-left: auto; font-size: 13px; color: var(--text-muted); }
 
-  /* Section */
-  .section { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 1rem; overflow: hidden; }
-  .section-header { padding: 12px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
-  .section-header .icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-  .section-header h2 { font-size: 14px; font-weight: 600; }
-  .section-header .progress-pill { margin-left: auto; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  /* Drag-and-drop habit list */
+  .habit-list { display: flex; flex-direction: column; gap: 8px; }
 
-  /* Habit rows */
-  .habit-row { padding: 12px 16px; display: flex; align-items: flex-start; gap: 12px; border-bottom: 1px solid var(--border); }
-  .habit-row:last-child { border-bottom: none; }
-  .habit-row.completed { opacity: 0.6; }
-  .check-wrap { padding-top: 1px; }
-  .habit-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; appearance: none; -webkit-appearance: none; display: flex; flex-shrink: 0; }
-  .habit-check:checked { background: var(--teal); border-color: var(--teal); }
-  .habit-check:checked::after { content: '✓'; color: white; font-size: 11px; display: flex; align-items: center; justify-content: center; width: 100%; }
-  .habit-info { flex: 1; }
-  .habit-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
-  .habit-time { font-size: 12px; color: var(--text-muted); }
-  .habit-note-wrap { margin-top: 6px; }
-  .habit-note { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 8px; font-size: 12px; color: var(--text); resize: none; font-family: inherit; background: var(--bg); }
-  .habit-note:focus { outline: none; border-color: var(--blue); }
-  .streak-badge { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--amber-dark); background: var(--amber-light); padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+  .habit-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: default;
+    transition: box-shadow 0.15s, opacity 0.15s;
+    user-select: none;
+  }
+  .habit-card.dragging { opacity: 0.4; box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+  .habit-card.drag-over { border-color: var(--teal); box-shadow: 0 0 0 2px var(--teal-light); }
 
-  /* IF / Meal log */
-  .meal-row { padding: 12px 16px; border-bottom: 1px solid var(--border); }
-  .meal-row:last-child { border-bottom: none; }
-  .meal-label { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
-  .time-input-row { display: flex; align-items: center; gap: 8px; }
-  .time-input-row input[type=time] { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 8px; font-size: 13px; color: var(--text); background: var(--bg); }
-  .window-display { font-size: 12px; color: var(--teal-dark); background: var(--teal-light); padding: 3px 8px; border-radius: 20px; }
+  .habit-card-inner { display: flex; align-items: flex-start; gap: 0; }
 
-  /* Stats */
-  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .drag-handle {
+    width: 36px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px 0;
+    cursor: grab;
+    color: var(--text-hint);
+    font-size: 16px;
+    touch-action: none;
+  }
+  .drag-handle:active { cursor: grabbing; }
+  .drag-handle svg { width: 16px; height: 16px; fill: currentColor; }
+
+  .habit-body { flex: 1; padding: 12px 14px 12px 0; }
+
+  .habit-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
+  .habit-check {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--border); cursor: pointer;
+    appearance: none; -webkit-appearance: none;
+    flex-shrink: 0; margin-top: 1px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .habit-check:checked { background: var(--teal); border-color: var(--teal); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 6l3 3 5-5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: 12px; background-repeat: no-repeat; background-position: center; }
+
+  .habit-meta { flex: 1; }
+  .habit-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .habit-name.done { text-decoration: line-through; color: var(--text-muted); }
+
+  .habit-time-row { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+  .habit-time-label { font-size: 11px; color: var(--text-hint); }
+  .habit-time-input {
+    font-size: 12px; color: var(--text-muted);
+    border: none; background: none; cursor: pointer;
+    padding: 1px 4px; border-radius: 4px;
+    font-family: inherit;
+  }
+  .habit-time-input:hover { background: var(--gray-light); color: var(--text); }
+  .habit-time-input:focus { outline: 1px solid var(--teal); background: var(--teal-light); color: var(--teal-dark); }
+
+  .streak-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; color: var(--amber-dark); background: var(--amber-light); padding: 2px 7px; border-radius: 20px; }
+
+  .habit-note { width: 100%; border: none; border-top: 1px solid var(--border); background: var(--bg); padding: 8px 14px 8px 50px; font-size: 12px; color: var(--text); resize: none; font-family: inherit; display: block; }
+  .habit-note:focus { outline: none; background: var(--teal-light); border-top-color: var(--teal); }
+  .habit-note::placeholder { color: var(--text-hint); }
+
+  /* Section dividers */
+  .section-divider { display: flex; align-items: center; gap: 8px; margin: 1.25rem 0 0.5rem; }
+  .section-divider-icon { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+  .section-divider-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .section-divider-count { font-size: 11px; color: var(--text-hint); background: var(--gray-light); padding: 1px 7px; border-radius: 20px; }
+
+  /* Special rows */
+  .special-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 8px; }
+  .special-label { font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text); }
+  .special-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .special-row input[type=time] { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 8px; font-size: 13px; color: var(--text); background: var(--bg); font-family: inherit; }
+  .special-row input[type=number] { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 8px; font-size: 13px; width: 80px; font-family: inherit; background: var(--bg); color: var(--text); }
+  .special-muted { font-size: 12px; color: var(--text-muted); }
+  .if-display { font-size: 12px; color: var(--teal-dark); background: var(--teal-light); padding: 3px 9px; border-radius: 20px; display: none; }
+  .water-goal { font-size: 12px; color: var(--green-dark); background: var(--green-light); padding: 3px 9px; border-radius: 20px; display: none; }
+
+  /* Progress tab */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; text-align: center; }
-  .stat-num { font-size: 28px; font-weight: 700; line-height: 1; }
+  .stat-num { font-size: 26px; font-weight: 700; line-height: 1; }
   .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
   .stat-sub { font-size: 11px; color: var(--text-hint); margin-top: 2px; }
 
-  /* Weekly grid */
-  .week-grid { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 1.5rem; }
+  .week-grid { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 1.25rem; }
   .week-grid-header { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
-  .week-table { width: 100%; border-collapse: collapse; }
-  .week-table th { font-size: 11px; font-weight: 600; color: var(--text-muted); padding: 8px 6px; text-align: center; border-bottom: 1px solid var(--border); }
-  .week-table td { padding: 6px; text-align: center; border-bottom: 1px solid var(--border); }
+  .week-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .week-table th { font-size: 11px; font-weight: 600; color: var(--text-muted); padding: 8px 4px; text-align: center; border-bottom: 1px solid var(--border); }
+  .week-table td { padding: 5px 4px; text-align: center; border-bottom: 1px solid var(--border); }
   .week-table tr:last-child td { border-bottom: none; }
-  .week-table .habit-col { text-align: left; padding-left: 16px; font-size: 12px; color: var(--text); font-weight: 500; max-width: 150px; }
-  .cell-dot { width: 22px; height: 22px; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+  .habit-col { text-align: left !important; padding-left: 14px !important; font-size: 12px; color: var(--text); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cell-dot { width: 20px; height: 20px; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 10px; }
   .cell-dot.done { background: var(--teal); color: white; }
   .cell-dot.miss { background: var(--gray-light); color: var(--text-hint); }
-  .cell-dot.future { background: none; }
-  .cell-dot.today-cell { ring: 2px solid var(--blue); }
 
-  /* Streaks panel */
   .streak-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
   .streak-panel-header { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
-  .streak-list { }
-  .streak-row { display: flex; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--border); gap: 10px; }
+  .streak-row { display: flex; align-items: center; padding: 9px 16px; border-bottom: 1px solid var(--border); gap: 10px; }
   .streak-row:last-child { border-bottom: none; }
-  .streak-name { font-size: 13px; flex: 1; }
-  .streak-bar-wrap { flex: 2; height: 6px; background: var(--gray-light); border-radius: 3px; overflow: hidden; }
+  .streak-name { font-size: 13px; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .streak-bar-wrap { flex: 2; height: 5px; background: var(--gray-light); border-radius: 3px; overflow: hidden; }
   .streak-bar { height: 100%; border-radius: 3px; background: var(--teal); }
-  .streak-num { font-size: 13px; font-weight: 700; color: var(--teal-dark); min-width: 40px; text-align: right; }
+  .streak-num { font-size: 13px; font-weight: 700; color: var(--teal-dark); min-width: 36px; text-align: right; }
 
-  /* Save indicator */
-  .save-indicator { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--teal); color: white; padding: 8px 16px; border-radius: var(--radius); font-size: 13px; font-weight: 500; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .save-indicator { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--teal); color: white; padding: 8px 16px; border-radius: var(--radius); font-size: 13px; font-weight: 500; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 200; }
   .save-indicator.show { opacity: 1; }
 
-  /* Config screen */
-  .config-screen { max-width: 480px; margin: 4rem auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+  .config-screen { max-width: 460px; margin: 4rem auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
   .config-screen h2 { font-size: 18px; font-weight: 600; margin-bottom: 0.5rem; }
-  .config-screen p { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; }
-  .config-screen input { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 14px; margin-bottom: 10px; }
+  .config-screen p { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6; }
+  .config-screen input { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 14px; margin-bottom: 10px; font-family: inherit; }
   .config-screen button { width: 100%; background: var(--teal); color: white; border: none; border-radius: var(--radius-sm); padding: 10px; font-size: 14px; font-weight: 600; cursor: pointer; }
 </style>
 </head>
@@ -146,7 +184,6 @@
       <button class="tab" onclick="switchTab('progress', this)">Progress</button>
     </div>
 
-    <!-- DAILY TAB -->
     <div id="tab-daily">
       <div class="day-type-row">
         <label>Day type:</label>
@@ -154,13 +191,11 @@
           <button id="btn-resistance" class="active" onclick="setDayType('resistance')">💪 Resistance</button>
           <button id="btn-rest" onclick="setDayType('rest')">🚶 Active Recovery</button>
         </div>
-        <div id="day-completion" style="margin-left:auto; font-size:13px; color:var(--text-muted);"></div>
+        <div class="day-completion" id="day-completion"></div>
       </div>
-
-      <div id="sections-container"></div>
+      <div id="habit-list" class="habit-list"></div>
     </div>
 
-    <!-- PROGRESS TAB -->
     <div id="tab-progress" style="display:none;">
       <div class="stats-grid" id="stats-grid"></div>
       <div class="week-grid">
@@ -169,7 +204,7 @@
       </div>
       <div class="streak-panel">
         <div class="streak-panel-header">🔥 Current streaks</div>
-        <div class="streak-list" id="streak-list"></div>
+        <div id="streak-list"></div>
       </div>
     </div>
   </div>
@@ -178,73 +213,62 @@
 <div class="save-indicator" id="save-indicator">Saved ✓</div>
 
 <script>
-// ── CONFIG ──────────────────────────────────────────────────────────────────
 const SUPABASE_URL = 'YOUR_SUPABASE_URL';
 const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
 const TABLE = 'health_tracker';
 
-// ── HABITS DEFINITION ───────────────────────────────────────────────────────
-const SECTIONS = [
-  {
-    id: 'mind', label: 'Mind & Spirit', icon: '🧘', color: 'teal',
-    habits: [
-      { id: 'meditation', label: 'Meditation', time: '6:15 AM · 20 min', notePrompt: 'How did it feel today?' },
-      { id: 'journaling', label: 'Journaling', time: '6:35 AM · 10 min', notePrompt: 'Top insight or intention...' },
-    ]
-  },
-  {
-    id: 'exercise', label: 'Exercise', icon: '💪', color: 'purple',
-    habits: [
-      { id: 'resistance', label: 'Resistance training', time: '6:45 AM · 45 min', notePrompt: 'Which routine? How did it feel?', resistanceOnly: true },
-      { id: 'swim', label: 'Swim', time: '2:00 PM', notePrompt: 'Laps, distance, or notes...' },
-    ]
-  },
-  {
-    id: 'movement', label: 'Low-impact movement', icon: '🚶', color: 'coral',
-    habits: [
-      { id: 'walk', label: 'Walk', time: '20 min', notePrompt: 'Where did you walk?', restOnly: true },
-      { id: 'walk_post', label: 'Walk (post-swim)', time: '3:00 PM · 20 min', notePrompt: '', resistanceOnly: true },
-      { id: 'bike', label: 'Recumbent bike', time: '15 min · knee rehab', notePrompt: 'Resistance level, how did knee feel?' },
-    ]
-  },
-  {
-    id: 'nutrition', label: 'Nutrition & IF', icon: '🥗', color: 'green',
-    habits: [
-      { id: 'if_window', label: 'IF window', time: 'First meal at noon or later', notePrompt: '', isIF: true },
-      { id: 'water', label: 'Water intake', time: 'Goal: 80+ oz', notePrompt: 'How many oz today?', isWater: true },
-    ]
-  },
-  {
-    id: 'work', label: 'Work', icon: '💼', color: 'blue',
-    habits: [
-      { id: 'work_morning', label: 'Morning deep work block', time: '8:00 AM – 12:00 PM', notePrompt: 'What did you accomplish?' },
-      { id: 'work_midday', label: 'Midday comms block', time: '12:30 – 2:00 PM', notePrompt: 'Key items handled...' },
-      { id: 'work_evening', label: 'Evening work block', time: '3:45 PM – 6:00 PM+', notePrompt: 'What got done?' },
-    ]
-  }
+// Default habit order — stored per-day so each day can differ
+const DEFAULT_HABITS = [
+  { id: 'meditation',   label: 'Meditation',           section: 'mind',      color: 'teal',   defaultTime: '6:15 AM', note: '', notePrompt: 'How did it feel today?',            days: 'both' },
+  { id: 'journaling',   label: 'Journaling',            section: 'mind',      color: 'teal',   defaultTime: '6:35 AM', note: '', notePrompt: 'Top insight or intention...',         days: 'both' },
+  { id: 'resistance',   label: 'Resistance training',   section: 'exercise',  color: 'purple', defaultTime: '6:45 AM', note: '', notePrompt: 'Which routine? How did it feel?',     days: 'resistance' },
+  { id: 'swim',         label: 'Swim',                  section: 'exercise',  color: 'purple', defaultTime: '2:00 PM', note: '', notePrompt: 'Laps, distance, or notes...',          days: 'both' },
+  { id: 'walk',         label: 'Walk',                  section: 'movement',  color: 'coral',  defaultTime: '7:05 AM', note: '', notePrompt: 'Where did you walk?',                 days: 'rest' },
+  { id: 'walk_post',    label: 'Walk (post-swim)',       section: 'movement',  color: 'coral',  defaultTime: '3:00 PM', note: '', notePrompt: 'Where did you walk?',                 days: 'resistance' },
+  { id: 'bike',         label: 'Recumbent bike',         section: 'movement',  color: 'coral',  defaultTime: '3:25 PM', note: '', notePrompt: 'Resistance level, how did knee feel?', days: 'both' },
+  { id: 'work_morning', label: 'Morning deep work',      section: 'work',      color: 'blue',   defaultTime: '8:00 AM', note: '', notePrompt: 'What did you accomplish?',             days: 'both' },
+  { id: 'work_midday',  label: 'Midday comms block',     section: 'work',      color: 'blue',   defaultTime: '12:30 PM',note: '', notePrompt: 'Key items handled...',                days: 'both' },
+  { id: 'work_evening', label: 'Evening work block',     section: 'work',      color: 'blue',   defaultTime: '3:45 PM', note: '', notePrompt: 'What got done?',                      days: 'both' },
 ];
 
-const ALL_HABIT_IDS = SECTIONS.flatMap(s => s.habits.map(h => h.id));
+const SECTION_META = {
+  mind:     { label: 'Mind & Spirit',        icon: '🧘', color: 'teal' },
+  exercise: { label: 'Exercise',             icon: '💪', color: 'purple' },
+  movement: { label: 'Low-impact movement',  icon: '🚶', color: 'coral' },
+  work:     { label: 'Work',                 icon: '💼', color: 'blue' },
+};
 
-// ── STATE ───────────────────────────────────────────────────────────────────
 let supabase_client = null;
 let currentDate = todayStr();
-let allLogs = {}; // { 'YYYY-MM-DD': { dayType, habits: {id: {done, note}}, meal_first, meal_last, water } }
+let allLogs = {};
 let saveTimer = null;
+let dragSrc = null;
 
-function todayStr() {
-  return new Date().toISOString().slice(0, 10);
-}
+function todayStr() { return new Date().toISOString().slice(0, 10); }
 
 function getLog(date) {
-  if (!allLogs[date]) allLogs[date] = { dayType: 'resistance', habits: {}, meal_first: '', meal_last: '', water: '' };
+  if (!allLogs[date]) {
+    allLogs[date] = {
+      dayType: 'resistance',
+      habitOrder: DEFAULT_HABITS.map(h => h.id),
+      habits: {},
+      meal_first: '', meal_last: '', water: ''
+    };
+  }
+  if (!allLogs[date].habitOrder) allLogs[date].habitOrder = DEFAULT_HABITS.map(h => h.id);
   return allLogs[date];
 }
 
-// ── SUPABASE ─────────────────────────────────────────────────────────────────
-function initSupabase(url, key) {
-  supabase_client = window.supabase.createClient(url, key);
+function getOrderedHabits(date) {
+  const log = getLog(date);
+  const dayType = log.dayType;
+  return log.habitOrder
+    .map(id => DEFAULT_HABITS.find(h => h.id === id))
+    .filter(h => h && (h.days === 'both' || h.days === dayType));
 }
+
+// ── SUPABASE ──────────────────────────────────────────────────────────────────
+function initSupabase(url, key) { supabase_client = window.supabase.createClient(url, key); }
 
 async function loadAll() {
   if (!supabase_client) return;
@@ -253,14 +277,11 @@ async function loadAll() {
   data.forEach(row => { allLogs[row.date] = row.data; });
 }
 
-function scheduleSave() {
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveDay, 800);
-}
+function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(saveDay, 800); }
 
 async function saveDay() {
-  const log = getLog(currentDate);
   if (!supabase_client) return;
+  const log = getLog(currentDate);
   await supabase_client.from(TABLE).upsert({ date: currentDate, data: log }, { onConflict: 'date' });
   showSaved();
 }
@@ -271,246 +292,301 @@ function showSaved() {
   setTimeout(() => el.classList.remove('show'), 1500);
 }
 
-// ── RENDERING ────────────────────────────────────────────────────────────────
-function renderDaily() {
-  const log = getLog(currentDate);
-  const container = document.getElementById('sections-container');
-  container.innerHTML = '';
+// ── DRAG AND DROP ─────────────────────────────────────────────────────────────
+function setupDrag(card, habitId) {
+  card.setAttribute('draggable', true);
 
-  const isResistance = log.dayType === 'resistance';
-
-  SECTIONS.forEach(section => {
-    const visibleHabits = section.habits.filter(h => {
-      if (h.resistanceOnly && !isResistance) return false;
-      if (h.restOnly && isResistance) return false;
-      return true;
-    });
-    if (!visibleHabits.length) return;
-
-    const done = visibleHabits.filter(h => {
-      if (h.isIF) return log.meal_first !== '';
-      return log.habits[h.id]?.done;
-    }).length;
-
-    const sec = document.createElement('div');
-    sec.className = 'section';
-
-    const pct = Math.round((done / visibleHabits.length) * 100);
-    const pillColor = pct === 100 ? 'var(--teal)' : pct > 50 ? 'var(--amber)' : 'var(--gray)';
-
-    sec.innerHTML = `<div class="section-header">
-      <div class="icon" style="background:var(--${section.color}-light); color:var(--${section.color}-dark)">${section.icon}</div>
-      <h2>${section.label}</h2>
-      <span class="progress-pill" style="background:${pct===100?'var(--teal-light)':'var(--gray-light)'}; color:${pct===100?'var(--teal-dark)':'var(--text-muted)'}">${done}/${visibleHabits.length}</span>
-    </div>`;
-
-    visibleHabits.forEach(habit => {
-      const hlog = log.habits[habit.id] || {};
-      const row = document.createElement('div');
-      row.className = 'habit-row' + (hlog.done ? ' completed' : '');
-
-      if (habit.isIF) {
-        row.innerHTML = `
-          <div class="habit-info" style="width:100%">
-            <div class="meal-label">🕐 First meal (break fast)</div>
-            <div class="time-input-row">
-              <input type="time" id="meal-first" value="${log.meal_first||''}" onchange="updateMeal('meal_first', this.value)">
-              <div class="meal-label" style="margin:0 4px; font-size:12px; color:var(--text-muted)">→ Last meal</div>
-              <input type="time" id="meal-last" value="${log.meal_last||''}" onchange="updateMeal('meal_last', this.value)">
-              <span id="if-window-display" class="window-display"></span>
-            </div>
-          </div>`;
-        updateIFDisplay(log);
-      } else if (habit.isWater) {
-        row.innerHTML = `
-          <div class="habit-info" style="width:100%">
-            <div class="meal-label">💧 Water intake (oz)</div>
-            <div class="time-input-row">
-              <input type="number" min="0" max="200" value="${log.water||''}" placeholder="e.g. 80" style="width:80px; border:1px solid var(--border); border-radius:var(--radius-sm); padding:5px 8px; font-size:13px;" onchange="updateWater(this.value)">
-              <span style="font-size:12px; color:var(--text-muted)">oz</span>
-              <span id="water-badge" style="font-size:12px; color:var(--teal-dark); background:var(--teal-light); padding:3px 8px; border-radius:20px; display:${(log.water||0)>=80?'block':'none'}">Goal met ✓</span>
-            </div>
-          </div>`;
-      } else {
-        const streak = calcStreak(habit.id);
-        row.innerHTML = `
-          <div class="check-wrap">
-            <input type="checkbox" class="habit-check" ${hlog.done ? 'checked' : ''} onchange="toggleHabit('${habit.id}', this.checked, this)">
-          </div>
-          <div class="habit-info">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <div class="habit-name">${habit.label}</div>
-              ${streak >= 3 ? `<span class="streak-badge">🔥 ${streak}</span>` : ''}
-            </div>
-            <div class="habit-time">${habit.time}</div>
-            <div class="habit-note-wrap">
-              <textarea class="habit-note" rows="1" placeholder="${habit.notePrompt||'Notes...'}" onchange="updateNote('${habit.id}', this.value)" onfocus="this.rows=3" onblur="this.rows=1">${hlog.note||''}</textarea>
-            </div>
-          </div>`;
-      }
-      sec.appendChild(row);
-    });
-
-    container.appendChild(sec);
+  card.addEventListener('dragstart', e => {
+    dragSrc = card;
+    card.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', habitId);
   });
 
+  card.addEventListener('dragend', () => {
+    card.classList.remove('dragging');
+    document.querySelectorAll('.habit-card').forEach(c => c.classList.remove('drag-over'));
+  });
+
+  card.addEventListener('dragover', e => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (card !== dragSrc) card.classList.add('drag-over');
+  });
+
+  card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+
+  card.addEventListener('drop', e => {
+    e.preventDefault();
+    card.classList.remove('drag-over');
+    if (!dragSrc || dragSrc === card) return;
+
+    const list = document.getElementById('habit-list');
+    const cards = [...list.querySelectorAll('.habit-card[data-id]')];
+    const srcIdx = cards.indexOf(dragSrc);
+    const tgtIdx = cards.indexOf(card);
+
+    if (srcIdx < tgtIdx) card.after(dragSrc); else card.before(dragSrc);
+
+    // Save new order
+    const log = getLog(currentDate);
+    const newOrder = [...list.querySelectorAll('.habit-card[data-id]')].map(c => c.dataset.id);
+    // Merge: keep all habit IDs, just update positions of visible ones
+    const hidden = log.habitOrder.filter(id => !newOrder.includes(id));
+    log.habitOrder = [...newOrder, ...hidden];
+    scheduleSave();
+    updateDayCompletion();
+  });
+
+  // Touch drag support
+  let touchStartY = 0, touchCard = null;
+  card.querySelector('.drag-handle').addEventListener('touchstart', e => {
+    touchCard = card;
+    touchStartY = e.touches[0].clientY;
+    card.classList.add('dragging');
+  }, { passive: true });
+
+  card.querySelector('.drag-handle').addEventListener('touchmove', e => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+    const target = el ? el.closest('.habit-card[data-id]') : null;
+    document.querySelectorAll('.habit-card').forEach(c => c.classList.remove('drag-over'));
+    if (target && target !== card) target.classList.add('drag-over');
+  }, { passive: false });
+
+  card.querySelector('.drag-handle').addEventListener('touchend', e => {
+    card.classList.remove('dragging');
+    const touch = e.changedTouches[0];
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+    const target = el ? el.closest('.habit-card[data-id]') : null;
+    document.querySelectorAll('.habit-card').forEach(c => c.classList.remove('drag-over'));
+    if (target && target !== card) {
+      const list = document.getElementById('habit-list');
+      const cards = [...list.querySelectorAll('.habit-card[data-id]')];
+      const tgtIdx = cards.indexOf(target);
+      const srcIdx = cards.indexOf(card);
+      if (srcIdx < tgtIdx) target.after(card); else target.before(card);
+      const log = getLog(currentDate);
+      const newOrder = [...list.querySelectorAll('.habit-card[data-id]')].map(c => c.dataset.id);
+      const hidden = log.habitOrder.filter(id => !newOrder.includes(id));
+      log.habitOrder = [...newOrder, ...hidden];
+      scheduleSave();
+      updateDayCompletion();
+    }
+  });
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function renderDaily() {
+  const log = getLog(currentDate);
+  const list = document.getElementById('habit-list');
+  list.innerHTML = '';
+
+  const habits = getOrderedHabits(currentDate);
+  let lastSection = null;
+
+  habits.forEach(habit => {
+    const hlog = log.habits[habit.id] || {};
+    const actualTime = hlog.time || habit.defaultTime;
+    const streak = calcStreak(habit.id);
+
+    // Section divider
+    if (habit.section !== lastSection) {
+      const meta = SECTION_META[habit.section];
+      const sectionHabits = habits.filter(h => h.section === habit.section);
+      const doneCt = sectionHabits.filter(h => log.habits[h.id]?.done).length;
+      const div = document.createElement('div');
+      div.className = 'section-divider';
+      div.innerHTML = `
+        <div class="section-divider-icon" style="background:var(--${meta.color}-light); color:var(--${meta.color}-dark)">${meta.icon}</div>
+        <span class="section-divider-label">${meta.label}</span>
+        <span class="section-divider-count">${doneCt}/${sectionHabits.length}</span>`;
+      list.appendChild(div);
+      lastSection = habit.section;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'habit-card';
+    card.dataset.id = habit.id;
+    card.innerHTML = `
+      <div class="habit-card-inner">
+        <div class="drag-handle" title="Drag to reorder">
+          <svg viewBox="0 0 16 16"><circle cx="5" cy="4" r="1.2"/><circle cx="5" cy="8" r="1.2"/><circle cx="5" cy="12" r="1.2"/><circle cx="11" cy="4" r="1.2"/><circle cx="11" cy="8" r="1.2"/><circle cx="11" cy="12" r="1.2"/></svg>
+        </div>
+        <div class="habit-body">
+          <div class="habit-top">
+            <input type="checkbox" class="habit-check" ${hlog.done ? 'checked' : ''} onchange="toggleHabit('${habit.id}', this.checked, this)">
+            <div class="habit-meta">
+              <div class="habit-name ${hlog.done ? 'done' : ''}">${habit.label}${streak >= 3 ? ` <span class="streak-badge">🔥 ${streak}</span>` : ''}</div>
+              <div class="habit-time-row">
+                <span class="habit-time-label">Time:</span>
+                <input type="text" class="habit-time-input" value="${actualTime}" placeholder="e.g. 2:00 PM"
+                  onchange="updateTime('${habit.id}', this.value)"
+                  onfocus="this.select()"
+                  title="Click to edit actual time">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <textarea class="habit-note" rows="1" placeholder="${habit.notePrompt || 'Notes...'}"
+        onchange="updateNote('${habit.id}', this.value)"
+        onfocus="this.rows=3" onblur="this.rows=1">${hlog.note || ''}</textarea>`;
+
+    setupDrag(card, habit.id);
+    list.appendChild(card);
+  });
+
+  // Nutrition & IF card
+  const nutriDiv = document.createElement('div');
+  nutriDiv.innerHTML = `
+    <div class="section-divider">
+      <div class="section-divider-icon" style="background:var(--green-light); color:var(--green-dark)">🥗</div>
+      <span class="section-divider-label">Nutrition & IF</span>
+    </div>
+    <div class="special-card">
+      <div class="special-label">🕐 Intermittent fasting window</div>
+      <div class="special-row">
+        <span class="special-muted">First meal</span>
+        <input type="time" id="meal-first" value="${log.meal_first || ''}" onchange="updateMeal('meal_first', this.value)">
+        <span class="special-muted">→ Last meal</span>
+        <input type="time" id="meal-last" value="${log.meal_last || ''}" onchange="updateMeal('meal_last', this.value)">
+        <span class="if-display" id="if-display"></span>
+      </div>
+    </div>
+    <div class="special-card">
+      <div class="special-label">💧 Water intake</div>
+      <div class="special-row">
+        <input type="number" min="0" max="200" value="${log.water || ''}" placeholder="0" onchange="updateWater(this.value)">
+        <span class="special-muted">oz</span>
+        <span class="water-goal" id="water-goal">Goal met ✓</span>
+      </div>
+    </div>`;
+  list.appendChild(nutriDiv);
+
+  updateIFDisplay(log);
+  updateWaterDisplay(log);
   updateDayCompletion();
 }
 
 function updateDayCompletion() {
   const log = getLog(currentDate);
-  const isResistance = log.dayType === 'resistance';
-  let total = 0, done = 0;
-  SECTIONS.forEach(s => s.habits.forEach(h => {
-    if (h.isIF || h.isWater) return;
-    if (h.resistanceOnly && !isResistance) return;
-    if (h.restOnly && isResistance) return;
-    total++;
-    if (log.habits[h.id]?.done) done++;
-  }));
-  const pct = total ? Math.round((done/total)*100) : 0;
-  document.getElementById('day-completion').textContent = `${done}/${total} habits · ${pct}% complete`;
+  const habits = getOrderedHabits(currentDate);
+  const done = habits.filter(h => log.habits[h.id]?.done).length;
+  const pct = habits.length ? Math.round((done / habits.length) * 100) : 0;
+  document.getElementById('day-completion').textContent = `${done}/${habits.length} habits · ${pct}%`;
 }
 
 function updateIFDisplay(log) {
-  const el = document.getElementById('if-window-display');
-  if (!el) return;
-  if (log.meal_first && log.meal_last) {
-    const [fh, fm] = log.meal_first.split(':').map(Number);
-    const [lh, lm] = log.meal_last.split(':').map(Number);
-    const mins = (lh * 60 + lm) - (fh * 60 + fm);
-    const fastMins = 1440 - mins;
-    el.textContent = `${Math.floor(fastMins/60)}h ${fastMins%60}m fasted`;
-    el.style.display = 'block';
-  } else {
-    el.style.display = 'none';
-  }
+  const el = document.getElementById('if-display');
+  if (!el || !log.meal_first || !log.meal_last) { if (el) el.style.display = 'none'; return; }
+  const [fh, fm] = log.meal_first.split(':').map(Number);
+  const [lh, lm] = log.meal_last.split(':').map(Number);
+  const windowMins = (lh * 60 + lm) - (fh * 60 + fm);
+  const fastMins = 1440 - windowMins;
+  el.textContent = `${Math.floor(fastMins / 60)}h ${fastMins % 60}m fasted`;
+  el.style.display = 'inline-block';
 }
 
-// ── PROGRESS TAB ─────────────────────────────────────────────────────────────
+function updateWaterDisplay(log) {
+  const el = document.getElementById('water-goal');
+  if (el) el.style.display = (parseInt(log.water) || 0) >= 80 ? 'inline-block' : 'none';
+}
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
 function renderProgress() {
-  renderStats();
-  renderWeekGrid();
-  renderStreaks();
-}
-
-function renderStats() {
   const today = todayStr();
-  const dates = Object.keys(allLogs).sort();
-  const last7 = getLast7Dates();
+  const last7 = getLast7();
 
-  // Overall completion last 7 days
-  let totalPossible = 0, totalDone = 0;
+  // Stats
+  let totalP = 0, totalD = 0;
   last7.forEach(d => {
-    const log = allLogs[d];
-    if (!log) return;
-    SECTIONS.forEach(s => s.habits.forEach(h => {
-      if (h.isIF || h.isWater) return;
-      if (h.resistanceOnly && log.dayType !== 'resistance') return;
-      if (h.restOnly && log.dayType === 'resistance') return;
-      totalPossible++;
-      if (log.habits?.[h.id]?.done) totalDone++;
-    }));
+    const log = allLogs[d]; if (!log) return;
+    const habits = getOrderedHabitsForLog(d, log);
+    habits.forEach(h => { totalP++; if (log.habits?.[h.id]?.done) totalD++; });
   });
-
+  const pct = totalP ? Math.round((totalD / totalP) * 100) : 0;
   const swimStreak = calcStreak('swim');
-  const meditateStreak = calcStreak('meditation');
-  const pct = totalPossible ? Math.round((totalDone / totalPossible) * 100) : 0;
+  const medStreak = calcStreak('meditation');
+  const daysLogged = Object.keys(allLogs).filter(d => d <= today).length;
 
-  const daysLogged = dates.filter(d => d <= today).length;
-
-  const grid = document.getElementById('stats-grid');
-  grid.innerHTML = `
-    <div class="stat-card"><div class="stat-num" style="color:var(--teal)">${pct}%</div><div class="stat-label">7-day completion</div><div class="stat-sub">${totalDone}/${totalPossible} habits</div></div>
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card"><div class="stat-num" style="color:var(--teal)">${pct}%</div><div class="stat-label">7-day completion</div><div class="stat-sub">${totalD}/${totalP} habits</div></div>
     <div class="stat-card"><div class="stat-num" style="color:var(--purple)">🔥${swimStreak}</div><div class="stat-label">Swim streak</div><div class="stat-sub">days in a row</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--teal)">🧘${meditateStreak}</div><div class="stat-label">Meditation streak</div><div class="stat-sub">days in a row</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--blue)">${daysLogged}</div><div class="stat-label">Days logged</div><div class="stat-sub">total entries</div></div>
-  `;
-}
+    <div class="stat-card"><div class="stat-num" style="color:var(--teal)">🧘${medStreak}</div><div class="stat-label">Meditation streak</div><div class="stat-sub">days in a row</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--blue)">${daysLogged}</div><div class="stat-label">Days logged</div><div class="stat-sub">total entries</div></div>`;
 
-function getLast7Dates() {
-  const dates = [];
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    dates.push(d.toISOString().slice(0, 10));
-  }
-  return dates;
-}
-
-function renderWeekGrid() {
-  const last7 = getLast7Dates();
-  const today = todayStr();
+  // Week grid — use default habit list for consistency
+  const trackable = DEFAULT_HABITS.filter(h => h.days === 'both');
   const dayNames = last7.map(d => {
     const dt = new Date(d + 'T12:00:00');
-    return dt.toLocaleDateString('en-US', { weekday: 'short' }) + '<br><span style="font-size:10px;color:var(--text-hint)">' + (d.slice(5)) + '</span>';
+    return dt.toLocaleDateString('en-US', { weekday: 'short' }) + '<br><span style="font-size:10px;color:var(--text-hint)">' + d.slice(5) + '</span>';
   });
-
-  const trackableHabits = SECTIONS.flatMap(s => s.habits.filter(h => !h.isIF && !h.isWater && !h.resistanceOnly && !h.restOnly));
-
-  const table = document.getElementById('week-table');
-  let html = '<thead><tr><th style="text-align:left;padding-left:16px">Habit</th>';
+  let html = '<thead><tr><th style="text-align:left;padding-left:14px;width:35%">Habit</th>';
   dayNames.forEach(d => { html += `<th>${d}</th>`; });
   html += '</tr></thead><tbody>';
-
-  trackableHabits.forEach(habit => {
+  trackable.forEach(habit => {
     html += `<tr><td class="habit-col">${habit.label}</td>`;
     last7.forEach(d => {
-      const log = allLogs[d];
-      const done = log?.habits?.[habit.id]?.done;
-      const isFuture = d > today;
-      if (isFuture) {
-        html += `<td><div class="cell-dot future"></div></td>`;
-      } else if (done) {
-        html += `<td><div class="cell-dot done">✓</div></td>`;
-      } else {
-        html += `<td><div class="cell-dot miss">–</div></td>`;
-      }
+      const done = allLogs[d]?.habits?.[habit.id]?.done;
+      const future = d > today;
+      html += `<td><div class="cell-dot ${future ? '' : done ? 'done' : 'miss'}">${!future && done ? '✓' : !future ? '–' : ''}</div></td>`;
     });
     html += '</tr>';
   });
-
   html += '</tbody>';
-  table.innerHTML = html;
-}
+  document.getElementById('week-table').innerHTML = html;
 
-function renderStreaks() {
-  const trackable = SECTIONS.flatMap(s => s.habits.filter(h => !h.isIF && !h.isWater));
-  const maxStreak = Math.max(1, ...trackable.map(h => calcStreak(h.id)));
-  const list = document.getElementById('streak-list');
-  list.innerHTML = '';
-  trackable.forEach(habit => {
-    const streak = calcStreak(habit.id);
+  // Streaks
+  const streakList = document.getElementById('streak-list');
+  streakList.innerHTML = '';
+  const streaks = DEFAULT_HABITS.filter(h => h.days === 'both').map(h => ({ ...h, streak: calcStreak(h.id) }));
+  const maxS = Math.max(7, ...streaks.map(s => s.streak));
+  streaks.forEach(s => {
     const row = document.createElement('div');
     row.className = 'streak-row';
     row.innerHTML = `
-      <div class="streak-name">${habit.label}</div>
-      <div class="streak-bar-wrap"><div class="streak-bar" style="width:${Math.round((streak/Math.max(maxStreak,7))*100)}%"></div></div>
-      <div class="streak-num">${streak > 0 ? '🔥' + streak : '–'}</div>`;
-    list.appendChild(row);
+      <div class="streak-name">${s.label}</div>
+      <div class="streak-bar-wrap"><div class="streak-bar" style="width:${Math.round((s.streak / maxS) * 100)}%"></div></div>
+      <div class="streak-num">${s.streak > 0 ? '🔥' + s.streak : '–'}</div>`;
+    streakList.appendChild(row);
   });
+}
+
+function getLast7() {
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(); d.setDate(d.getDate() - (6 - i));
+    return d.toISOString().slice(0, 10);
+  });
+}
+
+function getOrderedHabitsForLog(date, log) {
+  const dayType = log?.dayType || 'resistance';
+  const order = log?.habitOrder || DEFAULT_HABITS.map(h => h.id);
+  return order.map(id => DEFAULT_HABITS.find(h => h.id === id))
+    .filter(h => h && (h.days === 'both' || h.days === dayType));
 }
 
 function calcStreak(habitId) {
   let streak = 0;
-  let d = new Date();
+  const d = new Date();
   while (true) {
-    const dateStr = d.toISOString().slice(0, 10);
-    const log = allLogs[dateStr];
-    if (!log || !log.habits?.[habitId]?.done) break;
+    const ds = d.toISOString().slice(0, 10);
+    if (!allLogs[ds]?.habits?.[habitId]?.done) break;
     streak++;
     d.setDate(d.getDate() - 1);
   }
   return streak;
 }
 
-// ── ACTIONS ──────────────────────────────────────────────────────────────────
+// ── ACTIONS ───────────────────────────────────────────────────────────────────
 function toggleHabit(id, checked, el) {
   const log = getLog(currentDate);
   if (!log.habits[id]) log.habits[id] = {};
   log.habits[id].done = checked;
-  const row = el.closest('.habit-row');
-  if (checked) row.classList.add('completed'); else row.classList.remove('completed');
+  const nameEl = el.closest('.habit-card-inner').querySelector('.habit-name');
+  if (nameEl) nameEl.classList.toggle('done', checked);
   updateDayCompletion();
   scheduleSave();
 }
@@ -519,6 +595,13 @@ function updateNote(id, val) {
   const log = getLog(currentDate);
   if (!log.habits[id]) log.habits[id] = {};
   log.habits[id].note = val;
+  scheduleSave();
+}
+
+function updateTime(id, val) {
+  const log = getLog(currentDate);
+  if (!log.habits[id]) log.habits[id] = {};
+  log.habits[id].time = val;
   scheduleSave();
 }
 
@@ -532,8 +615,7 @@ function updateMeal(field, val) {
 function updateWater(val) {
   const log = getLog(currentDate);
   log.water = val;
-  const badge = document.getElementById('water-badge');
-  if (badge) badge.style.display = parseInt(val) >= 80 ? 'block' : 'none';
+  updateWaterDisplay(log);
   scheduleSave();
 }
 
@@ -563,10 +645,10 @@ function goToday() {
 function refreshDateDisplay() {
   const d = new Date(currentDate + 'T12:00:00');
   const isToday = currentDate === todayStr();
-  const label = isToday ? 'Today — ' : '';
-  document.getElementById('date-display').textContent = label + d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-  document.getElementById('next-btn').disabled = currentDate >= todayStr();
-  document.getElementById('next-btn').style.opacity = currentDate >= todayStr() ? '0.3' : '1';
+  document.getElementById('date-display').textContent = (isToday ? 'Today — ' : '') + d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.disabled = currentDate >= todayStr();
+  nextBtn.style.opacity = currentDate >= todayStr() ? '0.3' : '1';
 }
 
 function switchTab(tab, btn) {
@@ -577,7 +659,7 @@ function switchTab(tab, btn) {
   if (tab === 'progress') renderProgress();
 }
 
-// ── CONFIG ───────────────────────────────────────────────────────────────────
+// ── CONFIG & BOOT ─────────────────────────────────────────────────────────────
 function saveConfig() {
   const url = document.getElementById('cfg-url').value.trim();
   const key = document.getElementById('cfg-key').value.trim();
@@ -588,8 +670,7 @@ function saveConfig() {
 }
 
 async function startApp(url, key) {
-  initSupabase(url, key);
-  await ensureTable();
+  if (url !== 'YOUR_SUPABASE_URL') initSupabase(url, key);
   await loadAll();
   document.getElementById('config-screen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
@@ -597,15 +678,9 @@ async function startApp(url, key) {
   renderDaily();
 }
 
-async function ensureTable() {
-  // Table must be created in Supabase dashboard — see README
-}
-
-// ── BOOT ──────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   const url = localStorage.getItem('sb_url') || SUPABASE_URL;
   const key = localStorage.getItem('sb_key') || SUPABASE_KEY;
-
   if (url === 'YOUR_SUPABASE_URL') {
     document.getElementById('config-screen').style.display = 'block';
   } else {
