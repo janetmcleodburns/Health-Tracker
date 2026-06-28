@@ -35,82 +35,63 @@
   .tab { flex: 1; padding: 8px; text-align: center; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; cursor: pointer; color: var(--text-muted); border: none; background: none; }
   .tab.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
-  .day-type-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .day-type-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; flex-wrap: wrap; }
   .day-type-row label { font-size: 13px; color: var(--text-muted); }
   .toggle-group { display: flex; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
   .toggle-group button { padding: 6px 14px; border: none; background: none; font-size: 13px; cursor: pointer; color: var(--text-muted); }
   .toggle-group button.active { background: var(--purple-light); color: var(--purple-dark); font-weight: 500; }
-  .day-completion { margin-left: auto; font-size: 13px; color: var(--text-muted); }
 
-  /* Drag-and-drop habit list */
+  /* Swim/Walk day toggle */
+  .swim-walk-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .swim-walk-row label { font-size: 13px; color: var(--text-muted); }
+  .sw-toggle { display: flex; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+  .sw-toggle button { padding: 6px 14px; border: none; background: none; font-size: 13px; cursor: pointer; color: var(--text-muted); }
+  .sw-toggle button.active-swim { background: var(--purple-light); color: var(--purple-dark); font-weight: 500; }
+  .sw-toggle button.active-walk { background: var(--coral-light); color: var(--coral-dark); font-weight: 500; }
+
+  .swim-week-tracker { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+  .swim-dots { display: flex; gap: 4px; }
+  .swim-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gray-light); border: 1px solid var(--border); }
+  .swim-dot.filled { background: var(--purple); border-color: var(--purple-dark); }
+  .swim-week-label { font-size: 11px; color: var(--text-muted); }
+
+  .day-completion { font-size: 13px; color: var(--text-muted); }
+
   .habit-list { display: flex; flex-direction: column; gap: 8px; }
 
-  .habit-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    cursor: default;
-    transition: box-shadow 0.15s, opacity 0.15s;
-    user-select: none;
-  }
+  .habit-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: box-shadow 0.15s, opacity 0.15s; user-select: none; }
   .habit-card.dragging { opacity: 0.4; box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
   .habit-card.drag-over { border-color: var(--teal); box-shadow: 0 0 0 2px var(--teal-light); }
 
-  .habit-card-inner { display: flex; align-items: flex-start; gap: 0; }
-
-  .drag-handle {
-    width: 36px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    padding: 14px 0;
-    cursor: grab;
-    color: var(--text-hint);
-    font-size: 16px;
-    touch-action: none;
-  }
+  .habit-card-inner { display: flex; align-items: flex-start; }
+  .drag-handle { width: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 14px 0; cursor: grab; color: var(--text-hint); touch-action: none; }
   .drag-handle:active { cursor: grabbing; }
   .drag-handle svg { width: 16px; height: 16px; fill: currentColor; }
-
   .habit-body { flex: 1; padding: 12px 14px 12px 0; }
-
   .habit-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
-  .habit-check {
-    width: 20px; height: 20px; border-radius: 50%;
-    border: 2px solid var(--border); cursor: pointer;
-    appearance: none; -webkit-appearance: none;
-    flex-shrink: 0; margin-top: 1px;
-    transition: background 0.15s, border-color 0.15s;
-  }
+
+  .habit-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; appearance: none; -webkit-appearance: none; flex-shrink: 0; margin-top: 1px; transition: background 0.15s, border-color 0.15s; }
   .habit-check:checked { background: var(--teal); border-color: var(--teal); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 6l3 3 5-5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: 12px; background-repeat: no-repeat; background-position: center; }
 
   .habit-meta { flex: 1; }
   .habit-name { font-size: 14px; font-weight: 500; color: var(--text); }
   .habit-name.done { text-decoration: line-through; color: var(--text-muted); }
-
   .habit-time-row { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
   .habit-time-label { font-size: 11px; color: var(--text-hint); }
-  .habit-time-input {
-    font-size: 12px; color: var(--text-muted);
-    border: none; background: none; cursor: pointer;
-    padding: 1px 4px; border-radius: 4px;
-    font-family: inherit;
-  }
+  .habit-time-input { font-size: 12px; color: var(--text-muted); border: none; background: none; cursor: pointer; padding: 1px 4px; border-radius: 4px; font-family: inherit; min-width: 80px; }
   .habit-time-input:hover { background: var(--gray-light); color: var(--text); }
   .habit-time-input:focus { outline: 1px solid var(--teal); background: var(--teal-light); color: var(--teal-dark); }
 
   .streak-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; color: var(--amber-dark); background: var(--amber-light); padding: 2px 7px; border-radius: 20px; }
-
   .habit-note { width: 100%; border: none; border-top: 1px solid var(--border); background: var(--bg); padding: 8px 14px 8px 50px; font-size: 12px; color: var(--text); resize: none; font-family: inherit; display: block; }
   .habit-note:focus { outline: none; background: var(--teal-light); border-top-color: var(--teal); }
   .habit-note::placeholder { color: var(--text-hint); }
 
-  /* Section dividers */
   .section-divider { display: flex; align-items: center; gap: 8px; margin: 1.25rem 0 0.5rem; }
   .section-divider-icon { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
   .section-divider-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
   .section-divider-count { font-size: 11px; color: var(--text-hint); background: var(--gray-light); padding: 1px 7px; border-radius: 20px; }
 
-  /* Special rows */
   .special-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 8px; }
   .special-label { font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text); }
   .special-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -127,6 +108,14 @@
   .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
   .stat-sub { font-size: 11px; color: var(--text-hint); margin-top: 2px; }
 
+  /* Swim weekly goal card */
+  .swim-goal-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .swim-goal-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .swim-goal-sub { font-size: 12px; color: var(--text-muted); }
+  .swim-goal-dots { display: flex; gap: 8px; margin-left: auto; }
+  .swim-goal-dot { width: 28px; height: 28px; border-radius: 50%; background: var(--gray-light); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 13px; }
+  .swim-goal-dot.filled { background: var(--purple); border-color: var(--purple-dark); color: white; }
+
   .week-grid { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 1.25rem; }
   .week-grid-header { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
   .week-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
@@ -137,6 +126,7 @@
   .cell-dot { width: 20px; height: 20px; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 10px; }
   .cell-dot.done { background: var(--teal); color: white; }
   .cell-dot.miss { background: var(--gray-light); color: var(--text-hint); }
+  .cell-dot.na { background: none; }
 
   .streak-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
   .streak-panel-header { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
@@ -155,6 +145,8 @@
   .config-screen p { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6; }
   .config-screen input { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 14px; margin-bottom: 10px; font-family: inherit; }
   .config-screen button { width: 100%; background: var(--teal); color: white; border: none; border-radius: var(--radius-sm); padding: 10px; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+  .info-banner { background: var(--blue-light); color: var(--blue-dark); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 12px; margin-bottom: 1rem; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -193,10 +185,25 @@
         </div>
         <div class="day-completion" id="day-completion"></div>
       </div>
+
+      <div class="swim-walk-row">
+        <label>Today's cardio:</label>
+        <div class="sw-toggle">
+          <button id="btn-swim-day" onclick="setSwimDay('swim')">🏊 Swim day</button>
+          <button id="btn-walk-day" onclick="setSwimDay('walk')">🚶 Walk day</button>
+        </div>
+        <div class="swim-week-tracker">
+          <span class="swim-week-label">Swims this week:</span>
+          <div class="swim-dots" id="swim-dots"></div>
+          <span class="swim-week-label" id="swim-week-count"></span>
+        </div>
+      </div>
+
       <div id="habit-list" class="habit-list"></div>
     </div>
 
     <div id="tab-progress" style="display:none;">
+      <div class="swim-goal-card" id="swim-goal-card"></div>
       <div class="stats-grid" id="stats-grid"></div>
       <div class="week-grid">
         <div class="week-grid-header">This week</div>
@@ -217,25 +224,26 @@ const SUPABASE_URL = 'YOUR_SUPABASE_URL';
 const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
 const TABLE = 'health_tracker';
 
-// Default habit order — stored per-day so each day can differ
+// swimDay: 'swim' | 'walk' — set per day, defaults to 'swim'
 const DEFAULT_HABITS = [
-  { id: 'meditation',   label: 'Meditation',           section: 'mind',      color: 'teal',   defaultTime: '6:15 AM', note: '', notePrompt: 'How did it feel today?',            days: 'both' },
-  { id: 'journaling',   label: 'Journaling',            section: 'mind',      color: 'teal',   defaultTime: '6:35 AM', note: '', notePrompt: 'Top insight or intention...',         days: 'both' },
-  { id: 'resistance',   label: 'Resistance training',   section: 'exercise',  color: 'purple', defaultTime: '6:45 AM', note: '', notePrompt: 'Which routine? How did it feel?',     days: 'resistance' },
-  { id: 'swim',         label: 'Swim',                  section: 'exercise',  color: 'purple', defaultTime: '2:00 PM', note: '', notePrompt: 'Laps, distance, or notes...',          days: 'both' },
-  { id: 'walk',         label: 'Walk',                  section: 'movement',  color: 'coral',  defaultTime: '7:05 AM', note: '', notePrompt: 'Where did you walk?',                 days: 'rest' },
-  { id: 'walk_post',    label: 'Walk (post-swim)',       section: 'movement',  color: 'coral',  defaultTime: '3:00 PM', note: '', notePrompt: 'Where did you walk?',                 days: 'resistance' },
-  { id: 'bike',         label: 'Recumbent bike',         section: 'movement',  color: 'coral',  defaultTime: '3:25 PM', note: '', notePrompt: 'Resistance level, how did knee feel?', days: 'both' },
-  { id: 'work_morning', label: 'Morning deep work',      section: 'work',      color: 'blue',   defaultTime: '8:00 AM', note: '', notePrompt: 'What did you accomplish?',             days: 'both' },
-  { id: 'work_midday',  label: 'Midday comms block',     section: 'work',      color: 'blue',   defaultTime: '12:30 PM',note: '', notePrompt: 'Key items handled...',                days: 'both' },
-  { id: 'work_evening', label: 'Evening work block',     section: 'work',      color: 'blue',   defaultTime: '3:45 PM', note: '', notePrompt: 'What got done?',                      days: 'both' },
+  { id: 'meditation',   label: 'Meditation',          section: 'mind',     color: 'teal',   defaultTime: '6:15 AM', notePrompt: 'How did it feel today?',             days: 'both' },
+  { id: 'journaling',   label: 'Journaling',           section: 'mind',     color: 'teal',   defaultTime: '6:35 AM', notePrompt: 'Top insight or intention...',          days: 'both' },
+  { id: 'resistance',   label: 'Resistance training',  section: 'exercise', color: 'purple', defaultTime: '6:45 AM', notePrompt: 'Which routine? How did it feel?',      days: 'resistance' },
+  { id: 'swim',         label: 'Swim',                 section: 'exercise', color: 'purple', defaultTime: '2:00 PM', notePrompt: 'Laps, distance, time, or notes...',    days: 'both', swimOnly: true },
+  { id: 'walk_morning', label: 'Morning walk',         section: 'movement', color: 'coral',  defaultTime: '7:05 AM', notePrompt: 'How far? How did you feel?',           days: 'rest' },
+  { id: 'walk_post',   label: 'Walk (post-swim)',      section: 'movement', color: 'coral',  defaultTime: '3:00 PM', notePrompt: 'How far? How did you feel?',           days: 'resistance', swimOnly: true },
+  { id: 'walk_long',   label: 'Longer walk',           section: 'movement', color: 'coral',  defaultTime: 'flexible',notePrompt: 'Distance, duration, how did it feel?', days: 'both', walkOnly: true },
+  { id: 'bike',         label: 'Recumbent bike',        section: 'movement', color: 'coral',  defaultTime: '3:25 PM', notePrompt: 'Resistance level, how did knee feel?', days: 'both', swimOnly: true },
+  { id: 'work_morning', label: 'Morning deep work',     section: 'work',     color: 'blue',   defaultTime: '8:00 AM', notePrompt: 'What did you accomplish?',              days: 'both' },
+  { id: 'work_midday',  label: 'Midday comms block',    section: 'work',     color: 'blue',   defaultTime: '12:30 PM',notePrompt: 'Key items handled...',                 days: 'both' },
+  { id: 'work_evening', label: 'Evening work block',    section: 'work',     color: 'blue',   defaultTime: '3:45 PM', notePrompt: 'What got done?',                       days: 'both' },
 ];
 
 const SECTION_META = {
-  mind:     { label: 'Mind & Spirit',        icon: '🧘', color: 'teal' },
-  exercise: { label: 'Exercise',             icon: '💪', color: 'purple' },
-  movement: { label: 'Low-impact movement',  icon: '🚶', color: 'coral' },
-  work:     { label: 'Work',                 icon: '💼', color: 'blue' },
+  mind:     { label: 'Mind & Spirit',       icon: '🧘', color: 'teal' },
+  exercise: { label: 'Exercise',            icon: '💪', color: 'purple' },
+  movement: { label: 'Low-impact movement', icon: '🚶', color: 'coral' },
+  work:     { label: 'Work',                icon: '💼', color: 'blue' },
 };
 
 let supabase_client = null;
@@ -248,23 +256,25 @@ function todayStr() { return new Date().toISOString().slice(0, 10); }
 
 function getLog(date) {
   if (!allLogs[date]) {
-    allLogs[date] = {
-      dayType: 'resistance',
-      habitOrder: DEFAULT_HABITS.map(h => h.id),
-      habits: {},
-      meal_first: '', meal_last: '', water: ''
-    };
+    allLogs[date] = { dayType: 'resistance', swimDay: 'swim', habitOrder: DEFAULT_HABITS.map(h => h.id), habits: {}, meal_first: '', meal_last: '', water: '' };
   }
   if (!allLogs[date].habitOrder) allLogs[date].habitOrder = DEFAULT_HABITS.map(h => h.id);
+  if (!allLogs[date].swimDay) allLogs[date].swimDay = 'swim';
   return allLogs[date];
 }
 
-function getOrderedHabits(date) {
+function getVisibleHabits(date) {
   const log = getLog(date);
-  const dayType = log.dayType;
+  const { dayType, swimDay } = log;
   return log.habitOrder
     .map(id => DEFAULT_HABITS.find(h => h.id === id))
-    .filter(h => h && (h.days === 'both' || h.days === dayType));
+    .filter(h => {
+      if (!h) return false;
+      if (h.days !== 'both' && h.days !== dayType) return false;
+      if (h.swimOnly && swimDay !== 'swim') return false;
+      if (h.walkOnly && swimDay !== 'walk') return false;
+      return true;
+    });
 }
 
 // ── SUPABASE ──────────────────────────────────────────────────────────────────
@@ -282,8 +292,8 @@ function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(saveDa
 async function saveDay() {
   if (!supabase_client) return;
   const log = getLog(currentDate);
-  await supabase_client.from(TABLE).upsert({ date: currentDate, data: log }, { onConflict: 'date' });
-  showSaved();
+  const { error } = await supabase_client.from(TABLE).upsert({ date: currentDate, data: log }, { onConflict: 'date' });
+  if (!error) showSaved();
 }
 
 function showSaved() {
@@ -292,98 +302,119 @@ function showSaved() {
   setTimeout(() => el.classList.remove('show'), 1500);
 }
 
+// ── SWIM WEEK TRACKER ─────────────────────────────────────────────────────────
+function getWeekSwimCount() {
+  const today = new Date(currentDate + 'T12:00:00');
+  const day = today.getDay(); // 0=Sun
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - (day === 0 ? 6 : day - 1));
+  let count = 0;
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const ds = d.toISOString().slice(0, 10);
+    if (ds > currentDate) break;
+    const log = allLogs[ds];
+    if (log?.swimDay === 'swim' && log?.habits?.swim?.done) count++;
+  }
+  return count;
+}
+
+function updateSwimDots() {
+  const count = getWeekSwimCount();
+  const dotsEl = document.getElementById('swim-dots');
+  const countEl = document.getElementById('swim-week-count');
+  if (!dotsEl) return;
+  dotsEl.innerHTML = '';
+  for (let i = 0; i < 4; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'swim-dot' + (i < count ? ' filled' : '');
+    dot.title = i < count ? 'Swim done ✓' : 'Swim needed';
+    dotsEl.appendChild(dot);
+  }
+  const remaining = Math.max(0, 4 - count);
+  countEl.textContent = count >= 4 ? '✓ Goal met!' : `${count}/4 · ${remaining} to go`;
+  countEl.style.color = count >= 4 ? 'var(--teal-dark)' : 'var(--text-muted)';
+}
+
 // ── DRAG AND DROP ─────────────────────────────────────────────────────────────
 function setupDrag(card, habitId) {
   card.setAttribute('draggable', true);
-
   card.addEventListener('dragstart', e => {
-    dragSrc = card;
-    card.classList.add('dragging');
+    dragSrc = card; card.classList.add('dragging');
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', habitId);
   });
-
   card.addEventListener('dragend', () => {
     card.classList.remove('dragging');
     document.querySelectorAll('.habit-card').forEach(c => c.classList.remove('drag-over'));
   });
-
   card.addEventListener('dragover', e => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+    e.preventDefault(); e.dataTransfer.dropEffect = 'move';
     if (card !== dragSrc) card.classList.add('drag-over');
   });
-
   card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
-
   card.addEventListener('drop', e => {
-    e.preventDefault();
-    card.classList.remove('drag-over');
+    e.preventDefault(); card.classList.remove('drag-over');
     if (!dragSrc || dragSrc === card) return;
-
     const list = document.getElementById('habit-list');
     const cards = [...list.querySelectorAll('.habit-card[data-id]')];
-    const srcIdx = cards.indexOf(dragSrc);
-    const tgtIdx = cards.indexOf(card);
-
+    const srcIdx = cards.indexOf(dragSrc), tgtIdx = cards.indexOf(card);
     if (srcIdx < tgtIdx) card.after(dragSrc); else card.before(dragSrc);
-
-    // Save new order
     const log = getLog(currentDate);
     const newOrder = [...list.querySelectorAll('.habit-card[data-id]')].map(c => c.dataset.id);
-    // Merge: keep all habit IDs, just update positions of visible ones
     const hidden = log.habitOrder.filter(id => !newOrder.includes(id));
     log.habitOrder = [...newOrder, ...hidden];
-    scheduleSave();
-    updateDayCompletion();
+    scheduleSave(); updateDayCompletion();
   });
 
-  // Touch drag support
-  let touchStartY = 0, touchCard = null;
-  card.querySelector('.drag-handle').addEventListener('touchstart', e => {
-    touchCard = card;
-    touchStartY = e.touches[0].clientY;
-    card.classList.add('dragging');
-  }, { passive: true });
-
-  card.querySelector('.drag-handle').addEventListener('touchmove', e => {
+  // Touch
+  const handle = card.querySelector('.drag-handle');
+  handle.addEventListener('touchstart', () => { dragSrc = card; card.classList.add('dragging'); }, { passive: true });
+  handle.addEventListener('touchmove', e => {
     e.preventDefault();
-    const touch = e.touches[0];
-    const el = document.elementFromPoint(touch.clientX, touch.clientY);
-    const target = el ? el.closest('.habit-card[data-id]') : null;
+    const t = e.touches[0];
+    const el = document.elementFromPoint(t.clientX, t.clientY);
+    const target = el?.closest('.habit-card[data-id]');
     document.querySelectorAll('.habit-card').forEach(c => c.classList.remove('drag-over'));
     if (target && target !== card) target.classList.add('drag-over');
   }, { passive: false });
-
-  card.querySelector('.drag-handle').addEventListener('touchend', e => {
+  handle.addEventListener('touchend', e => {
     card.classList.remove('dragging');
-    const touch = e.changedTouches[0];
-    const el = document.elementFromPoint(touch.clientX, touch.clientY);
-    const target = el ? el.closest('.habit-card[data-id]') : null;
+    const t = e.changedTouches[0];
+    const el = document.elementFromPoint(t.clientX, t.clientY);
+    const target = el?.closest('.habit-card[data-id]');
     document.querySelectorAll('.habit-card').forEach(c => c.classList.remove('drag-over'));
     if (target && target !== card) {
       const list = document.getElementById('habit-list');
       const cards = [...list.querySelectorAll('.habit-card[data-id]')];
-      const tgtIdx = cards.indexOf(target);
-      const srcIdx = cards.indexOf(card);
-      if (srcIdx < tgtIdx) target.after(card); else target.before(card);
+      if (cards.indexOf(card) < cards.indexOf(target)) target.after(card); else target.before(card);
       const log = getLog(currentDate);
       const newOrder = [...list.querySelectorAll('.habit-card[data-id]')].map(c => c.dataset.id);
       const hidden = log.habitOrder.filter(id => !newOrder.includes(id));
       log.habitOrder = [...newOrder, ...hidden];
-      scheduleSave();
-      updateDayCompletion();
+      scheduleSave(); updateDayCompletion();
     }
   });
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────────────
+// ── RENDER DAILY ──────────────────────────────────────────────────────────────
 function renderDaily() {
   const log = getLog(currentDate);
   const list = document.getElementById('habit-list');
   list.innerHTML = '';
 
-  const habits = getOrderedHabits(currentDate);
+  // Update toggles
+  document.getElementById('btn-resistance').classList.toggle('active', log.dayType === 'resistance');
+  document.getElementById('btn-rest').classList.toggle('active', log.dayType === 'rest');
+  const swimBtn = document.getElementById('btn-swim-day');
+  const walkBtn = document.getElementById('btn-walk-day');
+  swimBtn.className = log.swimDay === 'swim' ? 'active-swim' : '';
+  walkBtn.className = log.swimDay === 'walk' ? 'active-walk' : '';
+
+  updateSwimDots();
+
+  const habits = getVisibleHabits(currentDate);
   let lastSection = null;
 
   habits.forEach(habit => {
@@ -391,7 +422,6 @@ function renderDaily() {
     const actualTime = hlog.time || habit.defaultTime;
     const streak = calcStreak(habit.id);
 
-    // Section divider
     if (habit.section !== lastSection) {
       const meta = SECTION_META[habit.section];
       const sectionHabits = habits.filter(h => h.section === habit.section);
@@ -399,7 +429,7 @@ function renderDaily() {
       const div = document.createElement('div');
       div.className = 'section-divider';
       div.innerHTML = `
-        <div class="section-divider-icon" style="background:var(--${meta.color}-light); color:var(--${meta.color}-dark)">${meta.icon}</div>
+        <div class="section-divider-icon" style="background:var(--${meta.color}-light);color:var(--${meta.color}-dark)">${meta.icon}</div>
         <span class="section-divider-label">${meta.label}</span>
         <span class="section-divider-count">${doneCt}/${sectionHabits.length}</span>`;
       list.appendChild(div);
@@ -409,6 +439,13 @@ function renderDaily() {
     const card = document.createElement('div');
     card.className = 'habit-card';
     card.dataset.id = habit.id;
+
+    const isSwimDay = log.swimDay === 'swim';
+    const isWalkDay = log.swimDay === 'walk';
+    let subLabel = '';
+    if (habit.id === 'swim') subLabel = `<span style="font-size:11px;color:var(--purple-dark);background:var(--purple-light);padding:1px 7px;border-radius:20px;margin-left:6px;">Swim day</span>`;
+    if (habit.id === 'walk_long') subLabel = `<span style="font-size:11px;color:var(--coral-dark);background:var(--coral-light);padding:1px 7px;border-radius:20px;margin-left:6px;">Walk day</span>`;
+
     card.innerHTML = `
       <div class="habit-card-inner">
         <div class="drag-handle" title="Drag to reorder">
@@ -418,13 +455,11 @@ function renderDaily() {
           <div class="habit-top">
             <input type="checkbox" class="habit-check" ${hlog.done ? 'checked' : ''} onchange="toggleHabit('${habit.id}', this.checked, this)">
             <div class="habit-meta">
-              <div class="habit-name ${hlog.done ? 'done' : ''}">${habit.label}${streak >= 3 ? ` <span class="streak-badge">🔥 ${streak}</span>` : ''}</div>
+              <div class="habit-name ${hlog.done ? 'done' : ''}">${habit.label}${subLabel}${streak >= 3 ? ` <span class="streak-badge">🔥 ${streak}</span>` : ''}</div>
               <div class="habit-time-row">
                 <span class="habit-time-label">Time:</span>
                 <input type="text" class="habit-time-input" value="${actualTime}" placeholder="e.g. 2:00 PM"
-                  onchange="updateTime('${habit.id}', this.value)"
-                  onfocus="this.select()"
-                  title="Click to edit actual time">
+                  onchange="updateTime('${habit.id}', this.value)" onfocus="this.select()" title="Click to edit actual time">
               </div>
             </div>
           </div>
@@ -438,11 +473,11 @@ function renderDaily() {
     list.appendChild(card);
   });
 
-  // Nutrition & IF card
+  // Nutrition section
   const nutriDiv = document.createElement('div');
   nutriDiv.innerHTML = `
     <div class="section-divider">
-      <div class="section-divider-icon" style="background:var(--green-light); color:var(--green-dark)">🥗</div>
+      <div class="section-divider-icon" style="background:var(--green-light);color:var(--green-dark)">🥗</div>
       <span class="section-divider-label">Nutrition & IF</span>
     </div>
     <div class="special-card">
@@ -472,10 +507,11 @@ function renderDaily() {
 
 function updateDayCompletion() {
   const log = getLog(currentDate);
-  const habits = getOrderedHabits(currentDate);
+  const habits = getVisibleHabits(currentDate);
   const done = habits.filter(h => log.habits[h.id]?.done).length;
   const pct = habits.length ? Math.round((done / habits.length) * 100) : 0;
-  document.getElementById('day-completion').textContent = `${done}/${habits.length} habits · ${pct}%`;
+  const el = document.getElementById('day-completion');
+  if (el) el.textContent = `${done}/${habits.length} habits · ${pct}%`;
 }
 
 function updateIFDisplay(log) {
@@ -483,9 +519,8 @@ function updateIFDisplay(log) {
   if (!el || !log.meal_first || !log.meal_last) { if (el) el.style.display = 'none'; return; }
   const [fh, fm] = log.meal_first.split(':').map(Number);
   const [lh, lm] = log.meal_last.split(':').map(Number);
-  const windowMins = (lh * 60 + lm) - (fh * 60 + fm);
-  const fastMins = 1440 - windowMins;
-  el.textContent = `${Math.floor(fastMins / 60)}h ${fastMins % 60}m fasted`;
+  const fast = 1440 - ((lh * 60 + lm) - (fh * 60 + fm));
+  el.textContent = `${Math.floor(fast / 60)}h ${fast % 60}m fasted`;
   el.style.display = 'inline-block';
 }
 
@@ -499,26 +534,37 @@ function renderProgress() {
   const today = todayStr();
   const last7 = getLast7();
 
+  // Swim goal this week
+  const swimCount = getWeekSwimCount();
+  const swimRemain = Math.max(0, 4 - swimCount);
+  document.getElementById('swim-goal-card').innerHTML = `
+    <div>
+      <div class="swim-goal-title">🏊 Weekly swim goal</div>
+      <div class="swim-goal-sub">${swimCount >= 4 ? 'Goal reached this week! 🎉' : `${swimCount}/4 swims · ${swimRemain} more to go`}</div>
+    </div>
+    <div class="swim-goal-dots">
+      ${[0,1,2,3].map(i => `<div class="swim-goal-dot ${i < swimCount ? 'filled' : ''}">🏊</div>`).join('')}
+    </div>`;
+
   // Stats
   let totalP = 0, totalD = 0;
   last7.forEach(d => {
     const log = allLogs[d]; if (!log) return;
-    const habits = getOrderedHabitsForLog(d, log);
+    const habits = getVisibleHabitsForLog(d, log);
     habits.forEach(h => { totalP++; if (log.habits?.[h.id]?.done) totalD++; });
   });
   const pct = totalP ? Math.round((totalD / totalP) * 100) : 0;
-  const swimStreak = calcStreak('swim');
   const medStreak = calcStreak('meditation');
   const daysLogged = Object.keys(allLogs).filter(d => d <= today).length;
 
   document.getElementById('stats-grid').innerHTML = `
     <div class="stat-card"><div class="stat-num" style="color:var(--teal)">${pct}%</div><div class="stat-label">7-day completion</div><div class="stat-sub">${totalD}/${totalP} habits</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--purple)">🔥${swimStreak}</div><div class="stat-label">Swim streak</div><div class="stat-sub">days in a row</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--purple)">🏊${swimCount}</div><div class="stat-label">Swims this week</div><div class="stat-sub">goal: 4</div></div>
     <div class="stat-card"><div class="stat-num" style="color:var(--teal)">🧘${medStreak}</div><div class="stat-label">Meditation streak</div><div class="stat-sub">days in a row</div></div>
     <div class="stat-card"><div class="stat-num" style="color:var(--blue)">${daysLogged}</div><div class="stat-label">Days logged</div><div class="stat-sub">total entries</div></div>`;
 
-  // Week grid — use default habit list for consistency
-  const trackable = DEFAULT_HABITS.filter(h => h.days === 'both');
+  // Week grid
+  const trackable = DEFAULT_HABITS.filter(h => h.days === 'both' && !h.swimOnly && !h.walkOnly);
   const dayNames = last7.map(d => {
     const dt = new Date(d + 'T12:00:00');
     return dt.toLocaleDateString('en-US', { weekday: 'short' }) + '<br><span style="font-size:10px;color:var(--text-hint)">' + d.slice(5) + '</span>';
@@ -526,12 +572,38 @@ function renderProgress() {
   let html = '<thead><tr><th style="text-align:left;padding-left:14px;width:35%">Habit</th>';
   dayNames.forEach(d => { html += `<th>${d}</th>`; });
   html += '</tr></thead><tbody>';
+
+  // Swim row special
+  html += `<tr><td class="habit-col">🏊 Swim</td>`;
+  last7.forEach(d => {
+    const log = allLogs[d];
+    const isSwimDay = log?.swimDay === 'swim';
+    const done = log?.habits?.swim?.done;
+    const future = d > today;
+    if (future) html += `<td><div class="cell-dot na"></div></td>`;
+    else if (!isSwimDay) html += `<td><div class="cell-dot na" title="Walk day">—</div></td>`;
+    else html += `<td><div class="cell-dot ${done ? 'done' : 'miss'}">${done ? '✓' : '–'}</div></td>`;
+  });
+  html += '</tr>';
+
+  // Walk row special
+  html += `<tr><td class="habit-col">🚶 Walk</td>`;
+  last7.forEach(d => {
+    const log = allLogs[d];
+    const isWalkDay = log?.swimDay === 'walk';
+    const walkDone = log?.habits?.walk_long?.done || log?.habits?.walk_post?.done || log?.habits?.walk_morning?.done;
+    const future = d > today;
+    if (future) html += `<td><div class="cell-dot na"></div></td>`;
+    else html += `<td><div class="cell-dot ${walkDone ? 'done' : 'miss'}">${walkDone ? '✓' : '–'}</div></td>`;
+  });
+  html += '</tr>';
+
   trackable.forEach(habit => {
     html += `<tr><td class="habit-col">${habit.label}</td>`;
     last7.forEach(d => {
       const done = allLogs[d]?.habits?.[habit.id]?.done;
       const future = d > today;
-      html += `<td><div class="cell-dot ${future ? '' : done ? 'done' : 'miss'}">${!future && done ? '✓' : !future ? '–' : ''}</div></td>`;
+      html += `<td><div class="cell-dot ${future ? 'na' : done ? 'done' : 'miss'}">${!future && done ? '✓' : !future ? '–' : ''}</div></td>`;
     });
     html += '</tr>';
   });
@@ -541,14 +613,15 @@ function renderProgress() {
   // Streaks
   const streakList = document.getElementById('streak-list');
   streakList.innerHTML = '';
-  const streaks = DEFAULT_HABITS.filter(h => h.days === 'both').map(h => ({ ...h, streak: calcStreak(h.id) }));
+  const streakHabits = DEFAULT_HABITS.filter(h => h.days === 'both' && !h.swimOnly && !h.walkOnly);
+  const streaks = streakHabits.map(h => ({ ...h, streak: calcStreak(h.id) }));
   const maxS = Math.max(7, ...streaks.map(s => s.streak));
   streaks.forEach(s => {
     const row = document.createElement('div');
     row.className = 'streak-row';
     row.innerHTML = `
       <div class="streak-name">${s.label}</div>
-      <div class="streak-bar-wrap"><div class="streak-bar" style="width:${Math.round((s.streak / maxS) * 100)}%"></div></div>
+      <div class="streak-bar-wrap"><div class="streak-bar" style="width:${Math.round((s.streak/maxS)*100)}%"></div></div>
       <div class="streak-num">${s.streak > 0 ? '🔥' + s.streak : '–'}</div>`;
     streakList.appendChild(row);
   });
@@ -561,11 +634,16 @@ function getLast7() {
   });
 }
 
-function getOrderedHabitsForLog(date, log) {
-  const dayType = log?.dayType || 'resistance';
-  const order = log?.habitOrder || DEFAULT_HABITS.map(h => h.id);
-  return order.map(id => DEFAULT_HABITS.find(h => h.id === id))
-    .filter(h => h && (h.days === 'both' || h.days === dayType));
+function getVisibleHabitsForLog(date, log) {
+  const { dayType, swimDay } = log;
+  const order = log.habitOrder || DEFAULT_HABITS.map(h => h.id);
+  return order.map(id => DEFAULT_HABITS.find(h => h.id === id)).filter(h => {
+    if (!h) return false;
+    if (h.days !== 'both' && h.days !== dayType) return false;
+    if (h.swimOnly && swimDay !== 'swim') return false;
+    if (h.walkOnly && swimDay !== 'walk') return false;
+    return true;
+  });
 }
 
 function calcStreak(habitId) {
@@ -585,8 +663,8 @@ function toggleHabit(id, checked, el) {
   const log = getLog(currentDate);
   if (!log.habits[id]) log.habits[id] = {};
   log.habits[id].done = checked;
-  const nameEl = el.closest('.habit-card-inner').querySelector('.habit-name');
-  if (nameEl) nameEl.classList.toggle('done', checked);
+  el.closest('.habit-card-inner').querySelector('.habit-name').classList.toggle('done', checked);
+  if (id === 'swim') updateSwimDots();
   updateDayCompletion();
   scheduleSave();
 }
@@ -622,8 +700,13 @@ function updateWater(val) {
 function setDayType(type) {
   const log = getLog(currentDate);
   log.dayType = type;
-  document.getElementById('btn-resistance').classList.toggle('active', type === 'resistance');
-  document.getElementById('btn-rest').classList.toggle('active', type === 'rest');
+  renderDaily();
+  scheduleSave();
+}
+
+function setSwimDay(type) {
+  const log = getLog(currentDate);
+  log.swimDay = type;
   renderDaily();
   scheduleSave();
 }
@@ -636,11 +719,7 @@ function changeDay(dir) {
   renderDaily();
 }
 
-function goToday() {
-  currentDate = todayStr();
-  refreshDateDisplay();
-  renderDaily();
-}
+function goToday() { currentDate = todayStr(); refreshDateDisplay(); renderDaily(); }
 
 function refreshDateDisplay() {
   const d = new Date(currentDate + 'T12:00:00');
@@ -659,7 +738,6 @@ function switchTab(tab, btn) {
   if (tab === 'progress') renderProgress();
 }
 
-// ── CONFIG & BOOT ─────────────────────────────────────────────────────────────
 function saveConfig() {
   const url = document.getElementById('cfg-url').value.trim();
   const key = document.getElementById('cfg-key').value.trim();
