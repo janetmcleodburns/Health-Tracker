@@ -60,6 +60,7 @@
   .habit-list { display: flex; flex-direction: column; gap: 8px; }
 
   .habit-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: box-shadow 0.15s, opacity 0.15s; user-select: none; }
+  .habit-note { user-select: text; -webkit-user-select: text; cursor: text; }
   .habit-card.dragging { opacity: 0.4; box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
   .habit-card.drag-over { border-color: var(--teal); box-shadow: 0 0 0 2px var(--teal-light); }
 
